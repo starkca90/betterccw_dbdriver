@@ -109,3 +109,5 @@ dist
 
 # IDE Specific
 .idea
+
+docker-compose.yml
