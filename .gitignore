@@ -102,3 +102,10 @@ dist
 
 # TernJS port file
 .tern-port
+
+# PUG Generate HTML
+/views/*.html
+/views/includes/*.html
+
+# IDE Specific
+.idea
