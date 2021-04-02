@@ -1,30 +1,21 @@
 const backend = require('./mongodb')
 
-const db_collection = process.env.COL_JOBS
+const db_collection = process.env.COL_ORDERS
 
 module.exports = {
-    getSingleOrder : async function (orderId) {
-        return await backend.findDocument(db_collection,{salesOrderNo: orderId})
-    },
+    getOrders : async function (orderIds) {
+        let query
 
-    getManyOrders: async function (orderIds) {
-        return await backend.findDocument(db_collection,{salesOrderNo: {$in: orderIds}})
-    },
+        if(typeof orderIds === 'string') {
+            console.log('Single Order')
+            query = {salesOrderNo: orderIds}
 
-    getRegexOrders: async function (orderIds, filter) {
-        const query = {
-            // Want to find orders where they are within the orderIds array and regex is satisfied
-            $and: [
-                // salesOrderNo is in the orderIds array
-                {salesOrderNo: {$in: orderIds}},
-                {
-                    // Either itemName or itemDescription satisfies regex
-                    $or: [
-                        {'lineItems.itemName': {$regex: filter, $options: 'i'}},
-                        {'lineItems.itemDescription': {$regex: filter, $options: 'i'}}
-                    ]
-                }
-            ]
+        } else if (typeof orderIds === 'object') {
+            console.log('Multiple Orders')
+            query = {salesOrderNo: {$in: orderIds}}
+        } else {
+            console.error('Unknown orderIds Type: ', orderIds, typeof orderIds)
+            return 'ERROR'
         }
 
         return await backend.findDocument(db_collection, query)

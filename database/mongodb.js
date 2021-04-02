@@ -1,5 +1,4 @@
 const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
 
 // Standard URI format: mongodb://[dbuser:dbpassword]@[host]:port/dbname, details set in .env
 let uri = 'mongodb+srv://' + process.env.DB_USER + ':' + process.env.DB_PASS + '@' + process.env.DB_HOST + '/' + process.env.DB + '?retryWrites=true&w=majority';
@@ -28,9 +27,11 @@ module.exports = {
             try {
                 const orders = client.db().collection(collection);
 
-                return orders.replaceOne(filter, document, {upsert: true})
+                return await orders.replaceOne(filter, document, {upsert: true})
             } catch (err) {
-                console.error(err);
+                console.error(err)
+
+                return err
             }
         } else {
             console.error('MongoDB Client Disconnected')
