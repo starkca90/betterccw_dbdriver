@@ -1,22 +1,32 @@
 const express = require('express')
-const path = require('path')
-const bodyParser = require('body-parser')
+const logger = require('morgan')
+const { initialize } = require('express-openapi')
+const v1DatabaseService = require('./api-v1/services/databaseService')
+const v1ApiDoc = require('./api-v1/api-doc')
+const swaggerUi = require('swagger-ui-express')
 
 const app = express()
 
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'pug')
+app.use(logger('dev'))
+app.use(express.urlencoded())
 
-// Tell express about body-parser (retrieves data from forms)
-app.use(bodyParser.urlencoded({limit: '200mb', extended: true}))
-app.use(bodyParser.json({limit: '200mb'}))
+// OpenAPI Routes
+initialize({
+    app,
+    apiDoc: v1ApiDoc,
+    dependencies: {
+        databaseService: v1DatabaseService
+    },
+    paths: './api-v1/paths'
+})
 
-// Allow express to serve files from the public folder
-app.use(express.static('public'))
+app.use('/health', require('./health/routes_health'))
 
-// Tell express about the routes
-app.use('/health', require('./routes/routes_health'))
-app.use('/v1/jobs', require('./routes/routes_jobs_v1'))
-app.use('/v1/orders', require('./routes/routes_orders_v1'))
+// OpenAPI UI
+app.use(
+    "/api-docs",
+    swaggerUi.serve,
+    swaggerUi.setup(v1ApiDoc)
+)
 
 module.exports = app

@@ -21,7 +21,8 @@ module.exports = {
         return await backend.findDocument(db_collection, query)
     },
 
-    insertSingleOrder : function (order) {
-        return backend.updateOne(db_collection,{salesOrderNo: order.salesOrderNo}, order)
+    insertOrders : function (orders) {
+        // TODO: Add support for adding multiple orders
+        return backend.updateOne(db_collection,{salesOrderNo: orders.salesOrderNo}, orders)
     }
 }
