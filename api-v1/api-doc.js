@@ -22,37 +22,41 @@ const apiDoc = {
                     type: "string"
                 },
                 salesOrderNo: {
-                    description: 'Order Number',
-                    type: 'string'
+                    description: "Order Number",
+                    type: "string"
                 },
                 salesOrderURL: {
-                    description: 'URL to order on Cisco Commerce Workspace',
-                    type: 'string'
+                    description: "URL to order on Cisco Commerce Workspace",
+                    type: "string"
                 }
             },
-            required: ['salesOrderNo']
+            required: ["salesOrderNo"]
         },
         Job: {
-            type: 'object',
+            type: "object",
             properties: {
-                id: {
-                    description: 'ID of the Job',
-                    type: 'string'
+                jobID: {
+                    description: "ID of the Job",
+                    type: "string"
                 },
-                status: {
-                    description: 'Current status of Job',
-                    type: 'string'
+                jobStatus: {
+                    description: "Current status of Job",
+                    type: "string"
                 },
                 startTime: {
-                    description: 'Time the Job started in UTC',
-                    type: 'string'
+                    description: "Time the Job started in UTC",
+                    type: "string"
                 },
                 endTime: {
-                    description: 'Time the Job ended in UTC',
-                    type: 'string'
+                    description: "Time the Job ended in UTC",
+                    type: "string"
+                },
+                requester: {
+                    description: "Name of the requester",
+                    type: "string"
                 }
             },
-            required: ['id']
+            required: ["jobID"]
         }
     },
     paths: {}

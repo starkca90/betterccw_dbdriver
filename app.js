@@ -7,8 +7,14 @@ const swaggerUi = require('swagger-ui-express')
 
 const app = express()
 
-app.use(logger('dev'))
 app.use(express.urlencoded())
+
+app.listen(3030)
+app.use(logger('dev'))
+app.use(express.json())
+app.use(express.urlencoded({extended: false}))
+
+app.use('/health', require('./health/routes_health'))
 
 // OpenAPI Routes
 initialize({
@@ -17,16 +23,24 @@ initialize({
     dependencies: {
         databaseService: v1DatabaseService
     },
-    paths: './api-v1/paths'
-})
+    errorMiddleware: function(err, req, res, next) { // only handles errors for /v3/*
+        console.error(err)
 
-app.use('/health', require('./health/routes_health'))
+        res.status(err.status).send(err.errors)
+    },
+    paths: "./api-v1/paths"
+})
 
 // OpenAPI UI
 app.use(
-    "/api-docs",
+    "/api-documentation",
     swaggerUi.serve,
-    swaggerUi.setup(v1ApiDoc)
+    swaggerUi.setup(null, {
+        swaggerOptions: {
+          url: "http://localhost:3030/v1/api-docs",
+          explorer: true
+        }
+      })
 )
 
 module.exports = app

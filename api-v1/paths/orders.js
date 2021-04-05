@@ -65,7 +65,7 @@ module.exports = function(databaseService) {
             200: {
                 description: 'Information about the order that match the requested order',
                 schema: {
-                    type: 'array',
+                    type: 'object',
                     items: {
                         $ref: '#/definitions/Order'
                     }

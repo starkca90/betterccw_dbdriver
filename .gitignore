@@ -109,5 +109,6 @@ dist
 
 # IDE Specific
 .idea
+.vscode
 
 docker-compose.yml

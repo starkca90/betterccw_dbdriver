@@ -1,4 +1,5 @@
 module.exports = function(databaseService) {
+    
     let operations = {
         GET,
         POST
@@ -53,54 +54,45 @@ module.exports = function(databaseService) {
     }
 
     GET.apiDoc = {
-        summary: 'Returns information about the requested Job',
-        operationId: 'getJobs',
+        summary: "Returns information about the requested Job",
+        operationId: "getJobs",
         parameters: [
             {
-                in: 'query',
-                name: 'job',
+                in: "query",
+                name: "job",
                 required: true,
-                type: 'string'
+                type: "string"
             }
         ],
         responses: {
             200: {
-                description: 'Information about the job that match the requested job',
+                description: "Information about the job that match the requested job",
                 schema: {
-                    type: 'array',
+                    type: "object",
                     items: {
-                        $ref: '#/definitions/Jobs'
+                        $ref: "#/definitions/Job"
                     }
-                }
-            },
-            default: {
-                description: 'An Unknown error occurred',
-                schema: {
-                    additionalProperties: true
                 }
             }
         }
     }
 
     POST.apiDoc = {
-        summary: 'Inserts the supplied job',
-        operationId: 'createJob',
-        consumes: ['application/json'],
+        summary: "Inserts the supplied job",
+        operationId: "createJob",
+        consumes: ["application/json"],
         parameters: [
             {
-                in: 'body',
-                name: 'job',
+                in: "body",
+                name: "job",
                 schema: {
-                    $ref: '#/definitions/Job'
+                    $ref: "#/definitions/Job"
                 }
             }
         ],
         responses: {
             200: {
-                description: 'Job Created',
-            },
-            400: {
-                description: 'Error with provided data',
+                description: "Job Created"
             }
         }
     }
