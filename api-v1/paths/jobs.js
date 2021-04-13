@@ -12,7 +12,24 @@ module.exports = function(databaseService) {
             console.log('Job Present')
             console.log(req.query.job)
 
-            databaseService.getJob(JSON.parse(req.query.job)).then((found_jobs) => {
+            let jobId
+
+            // Check if requester wrapped job id in quotes
+            if((req.query.job.charAt(0) === "\"" && req.query.job.charAt(req.query.job.length - 1) === "\"") ||
+                (req.query.job.charAt(0) === "[" && req.query.job.charAt(req.query.job.length - 1) === "]"))
+                jobId = JSON.parse(req.query.job)
+            else
+                jobId = req.query.job
+
+            // An array of job ids was passed in, make sure each job id is normalized
+            if(typeof jobId === 'object') {
+                jobId.forEach((job, index) => {
+                    if(typeof job === 'number')
+                        jobId[index] = job.toString()
+                })
+            }
+
+            databaseService.getJob(jobId).then((found_jobs) => {
 
                 // If an error is found in the entry, 'ERROR' is returned, check for that and inform the caller
                 if (found_jobs === 'ERROR') {

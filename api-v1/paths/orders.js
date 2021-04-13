@@ -10,7 +10,24 @@ module.exports = function(databaseService) {
         if(req.query.order !== undefined) {
             console.log('Order Present')
 
-            databaseService.getOrder(JSON.parse(req.query.order)).then((found_orders) => {
+            let orderId
+
+            // Check if requester wrapped the order id in quotes
+            if((req.query.order.charAt(0) === "\"" && req.query.order.charAt(req.query.order.length - 1) === "\"") ||
+                (req.query.order.charAt(0) === "[" && req.query.order.charAt(req.query.order.length - 1) === "]"))
+                orderId = JSON.parse(req.query.order)
+            else
+                orderId = req.query.order
+
+            // An array of order ids was passed in, make sure each order id is normalized
+            if(typeof orderId === 'object') {
+                orderId.forEach((order, index) => {
+                    if(typeof order === 'number')
+                        orderId[index] = order.toString()
+                })
+            }
+
+            databaseService.getOrder(orderId).then((found_orders) => {
 
                 // If an error is found in the entry, 'ERROR' is returned, check for that and inform the caller
                 if (found_orders === 'ERROR') {
