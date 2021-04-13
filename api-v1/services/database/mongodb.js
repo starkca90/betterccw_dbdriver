@@ -45,7 +45,7 @@ module.exports = {
             try {
                 const orders = client.db().collection(collection);
 
-                let res = await orders.find(query).toArray();
+                let res = await orders.find(query, {projection: {_id: 0}}).toArray();
 
                 if (res.length > 0) {
                     return res
