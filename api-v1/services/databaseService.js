@@ -16,6 +16,10 @@ const databaseService = {
 
     async createJob(job) {
         return await jobs.updateJob(job)
+    },
+
+    async deleteJob(job) {
+        return await jobs.deleteJob(job)
     }
 }
 

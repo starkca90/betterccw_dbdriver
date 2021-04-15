@@ -9,5 +9,9 @@ module.exports = {
 
     updateJob : function (job) {
         return backend.updateOne(db_collection,{jobID: job.jobID}, job)
+    },
+
+    deleteJob : function (jobId) {
+        return backend.deleteDocument(db_collection, {jobID: jobId})
     }
 }

@@ -70,6 +70,10 @@ module.exports = function(databaseService) {
         }
     }
 
+    function DELETE(req, res, next) {
+        console.log('Job Delete Received')
+    }
+
     GET.apiDoc = {
         summary: "Returns information about the requested Job",
         operationId: "getJobs",

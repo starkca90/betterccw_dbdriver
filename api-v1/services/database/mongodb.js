@@ -25,9 +25,9 @@ module.exports = {
 
         if (client.isConnected()) {
             try {
-                const orders = client.db().collection(collection);
+                const db_collection = client.db().collection(collection);
 
-                return await orders.replaceOne(filter, document, {upsert: true})
+                return await db_collection.replaceOne(filter, document, {upsert: true})
             } catch (err) {
                 console.error(err)
 
@@ -43,9 +43,9 @@ module.exports = {
 
         if (client.isConnected()) {
             try {
-                const orders = client.db().collection(collection);
+                const db_collection = client.db().collection(collection);
 
-                let res = await orders.find(query, {projection: {_id: 0}}).toArray();
+                let res = await db_collection.find(query, {projection: {_id: 0}}).toArray();
 
                 if (res.length > 0) {
                     return res
@@ -54,6 +54,24 @@ module.exports = {
                 }
             } catch (err) {
                 console.log(err);
+            }
+        } else {
+            console.error('MongoDB Client Disconnected')
+        }
+    },
+
+    deleteDocument : async function (collection, query) {
+        await connectClient()
+
+        if (client.isConnected()) {
+            try {
+                const db_collection = client.db().collection(collection);
+
+                let res = await db_collection.deleteOne(query)
+
+                return res.deletedCount === 1;
+            } catch (err) {
+                console.log(err)
             }
         } else {
             console.error('MongoDB Client Disconnected')
