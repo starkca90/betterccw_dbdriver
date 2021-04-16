@@ -81,7 +81,11 @@ module.exports = function(databaseService) {
             {
                 in: "query",
                 name: "job",
-                required: true,
+                type: "string"
+            },
+            {
+                in: "query",
+                name: "requester",
                 type: "string"
             }
         ],

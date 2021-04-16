@@ -13,5 +13,9 @@ module.exports = {
 
     deleteJob : function (jobId) {
         return backend.deleteDocument(db_collection, {jobID: jobId})
+    },
+
+    getRequests : async function (requester) {
+        return await backend.findDocument(db_collection, {requester: requester})
     }
 }

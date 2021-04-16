@@ -20,6 +20,10 @@ const databaseService = {
 
     async deleteJob(job) {
         return await jobs.deleteJob(job)
+    },
+
+    async getRequests(requester) {
+        return await jobs.getRequests(requester)
     }
 }
 
