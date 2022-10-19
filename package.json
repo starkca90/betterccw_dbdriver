@@ -15,7 +15,7 @@
     "dotenv-defaults": "^2.0.2",
     "express": "~4.17.1",
     "express-openapi": "^9.0.3",
-    "mongodb": "^3.6.9",
+    "mongodb": "^4.11.0",
     "morgan": "^1.10.0",
     "swagger-ui-express": "^4.1.6"
   }
