@@ -17,6 +17,6 @@
     "express-openapi": "^9.0.3",
     "mongodb": "^3.6.9",
     "morgan": "^1.10.0",
-    "swagger-ui-express": "^4.1.6"
+    "swagger-ui-express": "^4.6.0"
   }
 }
